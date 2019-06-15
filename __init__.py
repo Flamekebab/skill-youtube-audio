@@ -22,10 +22,11 @@ class YoutubeAudioSkill(MycroftSkill):
     def __init__(self):
         super(YoutubeAudioSkill, self).__init__(name="YoutubeAudioSkill")
 
+
     def initialize(self):
-	#This bit tells the skill which vocab file it needs so that users can make it work
-        play_video_audio_intent = IntentBuilder("PlayYoutubeAudioIntent"). \ 
-                require("play_youtube_audio").build()
+        take_picture_intent = IntentBuilder("PlayYoutubeAudioIntent"). \
+            require("play_youtube_audio").build()
+            # /\ This bit tells the skill which vocab file it needs so that users can make it work
         self.register_intent(play_video_audio_intent, self.play_video_audio_intent)
 
     def play_video_audio_intent(self, message):
