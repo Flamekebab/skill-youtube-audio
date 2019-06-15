@@ -35,7 +35,8 @@ class YoutubeAudioSkill(MycroftSkill):
         #Get Sultan running that command
         sultan = Sultan()
         ytURL = "https://www.youtube.com/watch?v=IPXIgEAGe4U"
-        sultan.youtube-dl("-x  -o \"output.opus\" " + ytURL).run()
+        #double underscores are needed for the syntax here - they're an equivalent of a hyphen
+        sultan.youtube__dl("-x  -o \"output.opus\" " + ytURL).run()
         sultan.vlc("output.opus").run()
 
     # The "stop" method defines what Mycroft does when told to stop during
