@@ -5,6 +5,7 @@ from  mycroft.util import wait_while_speaking
 from mycroft.util import play_wav, play_mp3
 from os.path import join, isfile, abspath, dirname
 
+from rm import rm
 from sultan.api import Sultan
 
 __author__ = 'Flamekebab'
@@ -34,10 +35,13 @@ class YoutubeAudioSkill(MycroftSkill):
         self.speak_dialog("downloading")
         #Get Sultan running that command
         sultan = Sultan()
-        ytURL = "https://www.youtube.com/watch?v=IPXIgEAGe4U"
+        #first we remove any existing output file:
+        rm("/tmp/output.wav")
+        ytURL = "https://www.youtube.com/watch?v=uO59tfQ2TbA"
         #double underscores are needed for the syntax here - they're an equivalent of a hyphen
-        sultan.youtube__dl("-x  -o \"output.opus\" " + ytURL).run()
-        sultan.vlc("output.opus").run()
+        sultan.youtube__dl("-x  --audio-format wav -o '/tmp/output.%(ext)s' " + ytURL).run()
+        play_wav("/tmp/output.wav")
+        #sultan.vlc("/tmp/output.opus").run()
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
