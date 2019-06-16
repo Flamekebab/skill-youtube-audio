@@ -4,7 +4,7 @@ from mycroft.util.log import getLogger
 from  mycroft.util import wait_while_speaking
 from mycroft.util import play_wav, play_mp3
 from os.path import join, isfile, abspath, dirname
-
+from mycroft.skills.audioservice import AudioService
 from rm import rm
 from sultan.api import Sultan
 
@@ -23,12 +23,12 @@ class YoutubeAudioSkill(MycroftSkill):
     def __init__(self):
         super(YoutubeAudioSkill, self).__init__(name="YoutubeAudioSkill")
 
-
     def initialize(self):
-        play_video_audio_intent = IntentBuilder("PlayYoutubeAudioIntent"). \
-            require("play_youtube_audio").build()
-            # /\ This bit tells the skill which vocab file it needs so that users can make it work
+        play_video_audio_intent = IntentBuilder("PlayYoutubeAudioIntent").require("play_youtube_audio").build()
+        # /\ This bit tells the skill which vocab file it needs so that users can make it work
         self.register_intent(play_video_audio_intent, self.play_video_audio_intent)
+        #We'll be using the audio service, if possible
+        self.audio_service = AudioService(self.emitter)
 
     def play_video_audio_intent(self, message):
         #It takes a moment for the command to be processed so probably best to prompt them!
@@ -40,7 +40,8 @@ class YoutubeAudioSkill(MycroftSkill):
         ytURL = "https://www.youtube.com/watch?v=uO59tfQ2TbA"
         #double underscores are needed for the syntax here - they're an equivalent of a hyphen
         sultan.youtube__dl("-x  --audio-format wav -o '/tmp/output.%(ext)s' " + ytURL).run()
-        play_wav("/tmp/output.wav")
+        self.audio_service.play('file:///tmp/output.wav')
+        #play_wav("/tmp/output.wav")
         #sultan.vlc("/tmp/output.opus").run()
 
     # The "stop" method defines what Mycroft does when told to stop during
