@@ -67,6 +67,8 @@ class YoutubeAudioSkill(MycroftSkill):
         sultan.youtube__dl("-x  --audio-format wav -o '/tmp/output.%(ext)s' " + ytURL).run()
         #Then we use the audio service to play our file:
         self.audio_service.play('file:///tmp/output.wav')
+        #We're done with it, delete it:
+        rm("/tmp/output.wav")
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality
