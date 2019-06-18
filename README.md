@@ -7,4 +7,4 @@ Why audio? Well I like to listen to music and I usually do that through YouTube.
 
 ## Stopping playback
 "Stop"
-(Really any of the standard stop phrases should work - the skill uses the Mycroft's play service)
+Really any of the standard stop phrases should work - the skill uses the Mycroft's play service. As far as I can tell this also means it takes standard commands like "pause" and "resume", so there's that too.
